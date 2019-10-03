@@ -1,12 +1,21 @@
 // Test: shows the controls and display
-import React from 'react';
-import * as rtl from 'react-testing-library';
-import Dashboard from './Dashboard';
+import React from 'react'
+import { render } from '@testing-library/react'
+import renderer from 'react-test-renderer'
+import Dashboard from './Dashboard'
 
-describe('Dashboard', () => {
-    it("should render display and controls", () => {
-        const wrapper = rtl.render(<Dashboard />);
-        expect(wrapper.getByTestId(/controls/i));
-        expect(wrapper.getByTestId(/display/i));        
-    });
-})
+describe('<Dashboard />', () => {
+    it('matches snapshot', () => {
+        const tree = renderer.create(<Dashboard />); 
+
+        expect(tree.toJSON()).toMatchSnapshot();
+      }); 
+
+    it('should render controls & display',() => {
+        const { getByText } = render(<Dashboard />)
+        getByText(/unlocked/i)
+        getByText(/lock gate/i)
+        getByText(/open/i)
+        getByText(/close gate/i)
+    })
+});
